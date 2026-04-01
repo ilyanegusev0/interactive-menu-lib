@@ -167,6 +167,17 @@ namespace InteractiveMenu.Core
         }
 
         /// <summary>
+        /// Removes the item at the specified index.
+        /// </summary>
+        /// <param name="index">The target index.</param>
+        public void RemoveAt(int index)
+        {
+            index = index < 0 ? _items.Count + index : index;
+
+            _items.RemoveAt(index);
+        }
+
+        /// <summary>
         /// Removes a range of items starting at the specified index.
         /// </summary>
         /// <param name="index">The start index.</param>
@@ -189,17 +200,6 @@ namespace InteractiveMenu.Core
             end = end < 0 ? _items.Count + end : end;
 
             _items.RemoveRange(start, end - start + 1);
-        }
-
-        /// <summary>
-        /// Removes the item at the specified index.
-        /// </summary>
-        /// <param name="index">The target index.</param>
-        public void RemoveAt(int index)
-        {
-            index = index < 0 ? _items.Count + index : index;
-
-            _items.RemoveAt(index);
         }
 
         /// <summary>
