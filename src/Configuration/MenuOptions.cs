@@ -13,7 +13,7 @@
         public ConsoleColor DefaultColor;
 
         /// <summary>
-        /// Gets or sets the color for non-selected items.
+        /// Gets or sets the color for selected items.
         /// </summary>
         public ConsoleColor SelectedColor;
 
