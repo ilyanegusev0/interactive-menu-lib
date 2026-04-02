@@ -45,8 +45,8 @@ List<MenuItem> items = new List<MenuItem>()
     new TextItem("[ MAIN MENU ]", ConsoleColor.Yellow),
     new EmptyItem(),
     new TextItem("Actions:", ConsoleColor.White),
-    new OptionItem(" - Products"),
-    new OptionItem(" - Customers", 1),
+    new OptionItem(" - Products", 0),
+    new OptionItem(" - Customers", 'c'),
     new OptionItem(" - Orders", "orders"),
     new EmptyItem(),
     new ActionItem(" - Exit", () => Environment.Exit(0), ConsoleColor.Red),
@@ -62,7 +62,7 @@ switch (result)
         ShowProducts();
         break;
 
-    case 1:
+    case 'c':
         ShowCustomers();
         break;
 
@@ -109,8 +109,8 @@ List<MenuItem> items = new List<MenuItem>()
     new TextItem("[ MAIN MENU ]", ConsoleColor.Yellow),
     new EmptyItem(),
     new TextItem("Actions:", ConsoleColor.Gray),
-    new OptionItem(" - Products"),
-    new OptionItem(" - Customers", 1),
+    new OptionItem(" - Products", 0),
+    new OptionItem(" - Customers", 'c'),
     new OptionItem(" - Orders", "orders"),
     new EmptyItem(),
     new ActionItem(" - Exit", () => Environment.Exit(0), ConsoleColor.Red),
@@ -126,7 +126,7 @@ switch (result)
         ShowProducts();
         break;
 
-    case 1:
+    case 'c':
         ShowCustomers();
         break;
 
@@ -280,10 +280,7 @@ Provides a selectable menu item that returns an associated value.
 
 ### Constructors:
 
--   `OptionItem(string text)` - Initializes a new instance of OptionItem with text only.
--   `OptionItem(string text, object value)` - Initializes a new instance of OptionItem with text and value.
--   `OptionItem(string text, ConsoleColor color)` - Initializes a new instance of OptionItem with text and color.
--   `OptionItem(string text, object? value, ConsoleColor? color = null)` - Initializes a new instance of OptionItem with
+-   `OptionItem(string text, object value, ConsoleColor? color = null)` - Initializes a new instance of OptionItem with
     text, value, and color.
 
 ## ActionItem : MenuItem, ISelectable
@@ -294,30 +291,6 @@ Provides a menu item that executes a delegate when selected.
 
 -   `ActionItem(string text, Delegate action, ConsoleColor? color = null)` - Initializes a new instance of ActionItem
     with a delegate.
-
-# Issues
-
-## Issue #1. Numeric values in `object` fields sometimes interpreted as `ConsoleColor`
-
-### Description:
-
-When passing numeric values (especially 0) into constructors or methods that accept object for menu items
-(e.g.,OptionItem), the value is sometimes incorrectly interpreted as a ConsoleColor. This leads to unexpected behavior
-where numbers are rendered as colors instead of being treated as plain values.
-
-### Example:
-
-```csharp
-new OptionItem("Zero", 0);
-```
-
-### Temporary Solution:
-
-Explicit type casting is recommended until the bug is fixed.
-
-```csharp
-new OptionItem("Zero", (object)0);
-```
 
 # Supports
 
