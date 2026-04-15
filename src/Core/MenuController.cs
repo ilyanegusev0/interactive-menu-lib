@@ -66,6 +66,10 @@ namespace InteractiveMenu.Core
                         menu.SetSelectedIndexByNumber(k - ConsoleKey.D1 + 1);
                         break;
 
+                    case var k when k >= ConsoleKey.NumPad1 && k <= ConsoleKey.NumPad9:
+                        menu.SetSelectedIndexByNumber(k - ConsoleKey.NumPad1 + 1);
+                        break;
+
                     case var k when k == _bindings.KeyUp:
                         menu.Navigate(-1);
                         break;
