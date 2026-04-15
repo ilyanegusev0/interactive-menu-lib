@@ -212,6 +212,26 @@ namespace InteractiveMenu.Core
 
         // internal
 
+        internal void SetSelectedIndexByNumber(int number)
+        {
+            if (number < 1)
+                return;
+
+            int count = 0;
+            for (int i = 0; i < _items.Count; i++)
+            {
+                if (_items[i] is ISelectable)
+                {
+                    count++;
+                    if (count == number)
+                    {
+                        _selectedIndex = i;
+                        return;
+                    }
+                }
+            }
+        }
+
         internal void Navigate(int direction)
         {
             if (_items.Count == 0)

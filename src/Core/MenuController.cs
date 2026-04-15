@@ -59,9 +59,13 @@ namespace InteractiveMenu.Core
             {
                 _renderer.Render(menu, startRow);
 
-                var key = Console.ReadKey(true).Key;
+                ConsoleKey key = Console.ReadKey(true).Key;
                 switch (key)
                 {
+                    case var k when k >= ConsoleKey.D1 && k <= ConsoleKey.D9:
+                        menu.SetSelectedIndexByNumber(k - ConsoleKey.D1 + 1);
+                        break;
+
                     case var k when k == _bindings.KeyUp:
                         menu.Navigate(-1);
                         break;
