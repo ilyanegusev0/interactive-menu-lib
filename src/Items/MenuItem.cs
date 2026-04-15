@@ -1,4 +1,6 @@
-﻿namespace InteractiveMenu.Items
+﻿using InteractiveMenu.Configuration;
+
+namespace InteractiveMenu.Items
 {
     /// <summary>
     /// Provides the abstract base class for all menu items.
@@ -29,5 +31,11 @@
             Text = text;
             Color = color;
         }
+
+        // METHODS
+
+        // internal
+
+        internal abstract IEnumerable<string> Render(MenuOptions options, bool isSelected);
     }
 }

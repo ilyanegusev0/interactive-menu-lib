@@ -1,4 +1,6 @@
-﻿namespace InteractiveMenu.Items
+﻿using InteractiveMenu.Configuration;
+
+namespace InteractiveMenu.Items
 {
     /// <summary>
     /// Provides a menu item that displays static text.
@@ -14,5 +16,14 @@
         /// <param name="color">Optional foreground color.</param>
         public TextItem(string text, ConsoleColor? color = null)
             : base(text, color) { }
+
+        // METHODS
+
+        // internal
+
+        internal override IEnumerable<string> Render(MenuOptions options, bool isSelected)
+        {
+            yield return Text;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using InteractiveMenu.Interfaces;
+﻿using InteractiveMenu.Configuration;
+using InteractiveMenu.Interfaces;
 
 namespace InteractiveMenu.Items
 {
@@ -28,6 +29,11 @@ namespace InteractiveMenu.Items
         // METHODS
 
         // internal
+
+        internal override IEnumerable<string> Render(MenuOptions options, bool isSelected)
+        {
+            yield return options.IsShowSelector && isSelected ? Text + options.Selector : Text;
+        }
 
         object? ISelectable.OnSelect()
         {

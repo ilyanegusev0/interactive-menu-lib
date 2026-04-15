@@ -1,4 +1,6 @@
-﻿namespace InteractiveMenu.Items
+﻿using InteractiveMenu.Configuration;
+
+namespace InteractiveMenu.Items
 {
     /// <summary>
     /// Provides a menu item that renders empty space.
@@ -34,6 +36,16 @@
                 throw new ArgumentOutOfRangeException();
 
             Count = count;
+        }
+
+        // METHODS
+
+        //internal
+
+        internal override IEnumerable<string> Render(MenuOptions options, bool isSelected)
+        {
+            for (int i = 0; i < Count; i++)
+                yield return string.Empty;
         }
     }
 }

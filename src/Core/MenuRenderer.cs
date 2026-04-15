@@ -45,25 +45,12 @@ namespace InteractiveMenu.Core
             for (int i = 0; i < menu.Items.Count; i++)
             {
                 MenuItem item = menu.Items[i];
+                bool isSelected = item is ISelectable && i == menu.SelectedIndex;
 
-                if (item is ISelectable && i == menu.SelectedIndex)
-                    Console.ForegroundColor = _options.SelectedColor;
-                else
-                    Console.ForegroundColor = item.Color ?? _options.DefaultColor;
+                Console.ForegroundColor = isSelected ? _options.SelectedColor : item.Color ?? _options.DefaultColor;
 
-
-                if (item is EmptyItem emptyItem)
-                {
-                    for (int j = 0; j < emptyItem.Count; j++)
-                        Console.WriteLine(string.Empty.PadRight(Console.WindowWidth));
-
-                    continue;
-                }
-
-                if (_options.IsShowSelector && item is ISelectable && i == menu.SelectedIndex)
-                    Console.WriteLine($"{item.Text}{_options.Selector}".PadRight(Console.WindowWidth));
-                else
-                    Console.WriteLine(item.Text.PadRight(Console.WindowWidth));
+                foreach (string line in item.Render(_options, isSelected))
+                    Console.WriteLine(line.PadRight(Console.WindowWidth));
             }
 
             Console.ForegroundColor = previousColor;
