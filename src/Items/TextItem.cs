@@ -13,9 +13,8 @@ namespace InteractiveMenu.Items
         /// Initializes a new instance of <see cref="TextItem"/>.
         /// </summary>
         /// <param name="text">The display text.</param>
-        /// <param name="color">Optional foreground color.</param>
-        public TextItem(string text, ConsoleColor? color = null)
-            : base(text, color) { }
+        public TextItem(string text)
+            : base(text) { }
 
         // METHODS
 

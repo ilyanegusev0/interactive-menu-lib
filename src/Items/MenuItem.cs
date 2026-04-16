@@ -15,9 +15,9 @@ namespace InteractiveMenu.Items
         public string Text { get; }
 
         /// <summary>
-        /// Gets the foreground color.
+        /// Gets or sets the foreground color.
         /// </summary>
-        public ConsoleColor? Color { get; }
+        public ConsoleColor? Color { get; set; }
 
         // CONSTRUCTORS
 
@@ -25,11 +25,9 @@ namespace InteractiveMenu.Items
         /// Initializes a new instance of <see cref="MenuItem"/>.
         /// </summary>
         /// <param name="text">The display text.</param>
-        /// <param name="color">Optional foreground color.</param>
-        protected MenuItem(string text, ConsoleColor? color)
+        protected MenuItem(string text)
         {
             Text = text;
-            Color = color;
         }
 
         // METHODS

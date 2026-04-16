@@ -18,13 +18,12 @@ namespace InteractiveMenu.Items
         // CONSTRUCTORS
 
         /// <summary>
-        /// Initializes a new instance of <see cref="OptionItem"/> with text, value, and color.
+        /// Initializes a new instance of <see cref="OptionItem"/> with text and value.
         /// </summary>
         /// <param name="text">The display text.</param>
         /// <param name="value">The value returned when selected.</param>
-        /// <param name="color">The foreground color.</param>
-        public OptionItem(string text, object value, ConsoleColor? color = null)
-            : base(text, color)
+        public OptionItem(string text, object value)
+            : base(text)
         {
             Value = value;
         }

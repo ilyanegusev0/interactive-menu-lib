@@ -19,9 +19,8 @@ namespace InteractiveMenu.Items
         /// </summary>
         /// <param name="text">The display text.</param>
         /// <param name="action">The delegate to execute.</param>
-        /// <param name="color">Optional foreground color.</param>
-        public ActionItem(string text, Delegate action, ConsoleColor? color = null)
-            : base(text, color)
+        public ActionItem(string text, Delegate action)
+            : base(text)
         {
             _action = action;
         }

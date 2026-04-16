@@ -20,7 +20,7 @@ namespace InteractiveMenu.Items
         /// Initializes a new instance of <see cref="EmptyItem"/> with one empty line.
         /// </summary>
         public EmptyItem()
-            : base(string.Empty, null)
+            : base(string.Empty)
         {
             Count = 1;
         }
@@ -30,7 +30,7 @@ namespace InteractiveMenu.Items
         /// </summary>
         /// <param name="count">The number of empty lines.</param>
         public EmptyItem(int count)
-            : base(string.Empty, null)
+            : base(string.Empty)
         {
             if (count < 1)
                 throw new ArgumentOutOfRangeException();
