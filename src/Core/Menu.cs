@@ -8,26 +8,17 @@ namespace InteractiveMenu.Core
 {
     public class Menu
     {
-        // FIELDS:
-
-        private readonly List<MenuItem> _items;
-        private int _selectedIndex;
-
         // PROPERTIES:
 
         /// <summary>
         /// Gets the list of menu items.
         /// </summary>
-        public List<MenuItem> Items => _items;
+        public List<MenuItem> Items { get; }
 
         /// <summary>
         /// Gets the index of the selected item.
         /// </summary>
-        public int SelectedIndex
-        {
-            get => _selectedIndex;
-            internal set => _selectedIndex = value;
-        }
+        public int SelectedIndex { get; internal set; }
 
         // CONSTRUCTORS:
 
@@ -36,7 +27,7 @@ namespace InteractiveMenu.Core
         /// </summary>
         public Menu()
         {
-            _items = new List<MenuItem>();
+            Items = new List<MenuItem>();
         }
 
         /// <summary>
@@ -44,7 +35,7 @@ namespace InteractiveMenu.Core
         /// </summary>
         public Menu(params MenuItem[] items)
         {
-            _items = items.ToList();
+            Items = items.ToList();
         }
 
         /// <summary>
@@ -52,7 +43,7 @@ namespace InteractiveMenu.Core
         /// </summary>
         public Menu(IEnumerable<MenuItem> items)
         {
-            _items = items.ToList();
+            Items = items.ToList();
         }
 
         // METHODS:
@@ -63,7 +54,7 @@ namespace InteractiveMenu.Core
         /// <param name="item">The item to add.</param>
         public void Add(MenuItem item)
         {
-            _items.Add(item);
+            Items.Add(item);
         }
 
         /// <summary>
@@ -73,9 +64,9 @@ namespace InteractiveMenu.Core
         /// <param name="item">The item to add.</param>
         public void AddAt(int index, MenuItem item)
         {
-            index = index < 0 ? _items.Count + index : index;
+            index = index < 0 ? Items.Count + index : index;
 
-            _items.Insert(index, item);
+            Items.Insert(index, item);
         }
 
         /// <summary>
@@ -84,7 +75,7 @@ namespace InteractiveMenu.Core
         /// <param name="items">The items to add.</param>
         public void AddRange(params MenuItem[] items)
         {
-            _items.AddRange(items);
+            Items.AddRange(items);
         }
 
         /// <summary>
@@ -93,7 +84,7 @@ namespace InteractiveMenu.Core
         /// <param name="items">The items to add.</param>
         public void AddRange(IEnumerable<MenuItem> items)
         {
-            _items.AddRange(items);
+            Items.AddRange(items);
         }
 
         // <summary>
@@ -103,9 +94,9 @@ namespace InteractiveMenu.Core
         /// <param name="items">The items to add.</param>
         public void AddRangeAt(int index, params MenuItem[] items)
         {
-            index = index < 0 ? _items.Count + index : index;
+            index = index < 0 ? Items.Count + index : index;
 
-            _items.InsertRange(index, items);
+            Items.InsertRange(index, items);
         }
 
         /// <summary>
@@ -115,9 +106,9 @@ namespace InteractiveMenu.Core
         /// <param name="items">The items to add.</param>
         public void AddRangeAt(int index, IEnumerable<MenuItem> items)
         {
-            index = index < 0 ? _items.Count + index : index;
+            index = index < 0 ? Items.Count + index : index;
 
-            _items.InsertRange(index, items);
+            Items.InsertRange(index, items);
         }
 
         /// <summary>
@@ -127,9 +118,9 @@ namespace InteractiveMenu.Core
         /// <param name="item">The new item.</param>
         public void ReplaceAt(int index, MenuItem item)
         {
-            index = index < 0 ? _items.Count + index : index;
+            index = index < 0 ? Items.Count + index : index;
 
-            _items[index] = item;
+            Items[index] = item;
         }
 
         /// <summary>
@@ -140,12 +131,12 @@ namespace InteractiveMenu.Core
         /// <param name="items">The new items.</param>
         public void ReplaceRange(int start, int end, params MenuItem[] items)
         {
-            start = start < 0 ? _items.Count + start : start;
-            end = end < 0 ? _items.Count + end : end;
+            start = start < 0 ? Items.Count + start : start;
+            end = end < 0 ? Items.Count + end : end;
 
-            _items.RemoveRange(start, end - start + 1);
+            Items.RemoveRange(start, end - start + 1);
 
-            _items.InsertRange(start, items);
+            Items.InsertRange(start, items);
         }
 
         /// <summary>
@@ -154,7 +145,7 @@ namespace InteractiveMenu.Core
         /// <param name="count">The number of items to remove.</param>
         public void RemoveFirst(int count)
         {
-            _items.RemoveRange(0, count);
+            Items.RemoveRange(0, count);
         }
 
         /// <summary>
@@ -163,7 +154,7 @@ namespace InteractiveMenu.Core
         /// <param name="count">The number of items to remove.</param>
         public void RemoveLast(int count)
         {
-            _items.RemoveRange(_items.Count - count, count);
+            Items.RemoveRange(Items.Count - count, count);
         }
 
         /// <summary>
@@ -172,9 +163,9 @@ namespace InteractiveMenu.Core
         /// <param name="index">The target index.</param>
         public void RemoveAt(int index)
         {
-            index = index < 0 ? _items.Count + index : index;
+            index = index < 0 ? Items.Count + index : index;
 
-            _items.RemoveAt(index);
+            Items.RemoveAt(index);
         }
 
         /// <summary>
@@ -184,9 +175,9 @@ namespace InteractiveMenu.Core
         /// <param name="count">The number of items to remove.</param>
         public void RemoveRangeByCount(int index, int count)
         {
-            index = index < 0 ? _items.Count + index : index;
+            index = index < 0 ? Items.Count + index : index;
 
-            _items.RemoveRange(index, count);
+            Items.RemoveRange(index, count);
         }
 
         /// <summary>
@@ -196,10 +187,10 @@ namespace InteractiveMenu.Core
         /// <param name="end">The end index.</param>
         public void RemoveRangeByIndices(int start, int end)
         {
-            start = start < 0 ? _items.Count + start : start;
-            end = end < 0 ? _items.Count + end : end;
+            start = start < 0 ? Items.Count + start : start;
+            end = end < 0 ? Items.Count + end : end;
 
-            _items.RemoveRange(start, end - start + 1);
+            Items.RemoveRange(start, end - start + 1);
         }
 
         /// <summary>
@@ -207,7 +198,7 @@ namespace InteractiveMenu.Core
         /// </summary>
         public void Clear()
         {
-            _items.Clear();
+            Items.Clear();
         }
 
         // internal
@@ -218,14 +209,14 @@ namespace InteractiveMenu.Core
                 return;
 
             int count = 0;
-            for (int i = 0; i < _items.Count; i++)
+            for (int i = 0; i < Items.Count; i++)
             {
-                if (_items[i] is ISelectable)
+                if (Items[i] is ISelectable)
                 {
                     count++;
                     if (count == number)
                     {
-                        _selectedIndex = i;
+                        SelectedIndex = i;
                         return;
                     }
                 }
@@ -234,17 +225,17 @@ namespace InteractiveMenu.Core
 
         internal void Navigate(int direction)
         {
-            if (_items.Count == 0)
+            if (Items.Count == 0)
                 return;
 
             do
-                _selectedIndex = (_selectedIndex + direction + _items.Count) % _items.Count;
-            while (!(_items[_selectedIndex] is ISelectable));
+                SelectedIndex = (SelectedIndex + direction + Items.Count) % Items.Count;
+            while (!(Items[SelectedIndex] is ISelectable));
         }
 
         internal MenuResult? Select()
         {
-            var item = Items[_selectedIndex];
+            var item = Items[SelectedIndex];
 
             if (item is ISelectable selectable)
                 return selectable.OnSelect();

@@ -80,7 +80,8 @@ namespace InteractiveMenu.Core
 
                     case var k when _bindings.KeySelectSet.Contains(k):
                         result = menu.Select();
-                        isRunning = false;
+                        if (result != null)
+                            isRunning = false;
                         break;
 
                     case var k when _bindings.KeyCancelSet.Contains(k):
