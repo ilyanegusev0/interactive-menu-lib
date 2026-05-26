@@ -70,20 +70,20 @@ namespace InteractiveMenu.Core
                         menu.SetSelectedIndexByNumber(k - ConsoleKey.NumPad1 + 1);
                         break;
 
-                    case var k when k == _bindings.KeyUp:
+                    case var k when _bindings.KeyUpSet.Contains(k):
                         menu.Navigate(-1);
                         break;
 
-                    case var k when k == _bindings.KeyDown:
+                    case var k when _bindings.KeyDownSet.Contains(k):
                         menu.Navigate(1);
                         break;
 
-                    case var k when k == _bindings.KeySelect:
+                    case var k when _bindings.KeySelectSet.Contains(k):
                         result = menu.Select();
                         isRunning = false;
                         break;
 
-                    case var l when key == _bindings.KeyCancel:
+                    case var k when _bindings.KeyCancelSet.Contains(k):
                         isRunning = false;
                         break;
                 }

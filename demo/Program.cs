@@ -2,13 +2,13 @@
 using InteractiveMenu.Items;
 using InteractiveMenu.Configuration;
 
-namespace InteractiveMenu.Demo.Minimal;
+namespace InteractiveMenu.Demo;
 
 internal class Program
 {
-
+    static MenuKeyBindings bindings = new MenuKeyBindings();
     static MenuRenderer renderer = new MenuRenderer();
-    static MenuController controller = new MenuController(renderer);
+    static MenuController controller = new MenuController(renderer, bindings);
 
     static void Main()
     {

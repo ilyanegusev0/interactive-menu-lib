@@ -8,24 +8,24 @@
         // PROPERTIES
 
         /// <summary>
-        /// Gets or sets the key for moving up.
+        /// Gets or sets the set of keys for moving up.
         /// </summary>
-        public ConsoleKey KeyUp;
+        public HashSet<ConsoleKey> KeyUpSet;
 
         /// <summary>
-        /// Gets or sets the key for moving down.
+        /// Gets or sets the set of keys for moving down.
         /// </summary>
-        public ConsoleKey KeyDown;
+        public HashSet<ConsoleKey> KeyDownSet;
 
         /// <summary>
-        /// Gets or sets the key for selecting an item.
+        /// Gets or sets the set of keys for selecting an item.
         /// </summary>
-        public ConsoleKey KeySelect;
+        public HashSet<ConsoleKey> KeySelectSet;
 
         /// <summary>
-        /// Gets or sets the key for canceling or exiting.
+        /// Gets or sets the set of keys for canceling or exiting.
         /// </summary>
-        public ConsoleKey KeyCancel;
+        public HashSet<ConsoleKey> KeyCancelSet;
 
         // CONSTRUCTORS
 
@@ -34,10 +34,10 @@
         /// </summary>
         public MenuKeyBindings()
         {
-            KeyUp = ConsoleKey.UpArrow;
-            KeyDown = ConsoleKey.DownArrow;
-            KeySelect = ConsoleKey.Enter;
-            KeyCancel = ConsoleKey.Escape;
+            KeyUpSet = new HashSet<ConsoleKey>() { ConsoleKey.UpArrow, ConsoleKey.W };
+            KeyDownSet = new HashSet<ConsoleKey>() { ConsoleKey.DownArrow, ConsoleKey.S };
+            KeySelectSet = new HashSet<ConsoleKey>() { ConsoleKey.Enter };
+            KeyCancelSet = new HashSet<ConsoleKey>() { ConsoleKey.Escape };
         }
     }
 }
