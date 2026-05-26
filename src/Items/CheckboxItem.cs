@@ -27,7 +27,7 @@ namespace InteractiveMenu.Items
 
         // internal
 
-        MenuResult? ISelectable.OnSelect()
+        MenuResult? ISelectable.OnSelect(Menu menu)
         {
             IsChecked = !IsChecked;
 

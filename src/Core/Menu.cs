@@ -254,7 +254,7 @@ namespace InteractiveMenu.Core
             var item = Items[SelectedIndex];
 
             if (item is ISelectable selectable)
-                return selectable.OnSelect();
+                return selectable.OnSelect(this);
 
             return null;
         }

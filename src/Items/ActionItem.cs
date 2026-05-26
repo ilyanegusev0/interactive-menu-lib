@@ -35,7 +35,7 @@ namespace InteractiveMenu.Items
             yield return isSelected ? Text + options.Selector : Text;
         }
 
-        MenuResult? ISelectable.OnSelect()
+        MenuResult? ISelectable.OnSelect(Menu menu)
         {
             return new MenuResult.ActionResult(_action.DynamicInvoke());
         }
