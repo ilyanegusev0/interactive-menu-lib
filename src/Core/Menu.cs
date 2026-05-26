@@ -15,12 +15,31 @@ namespace InteractiveMenu.Core
         /// </summary>
         public List<MenuItem> Items { get; }
 
+        /// <summary>
+        /// Gets a dictionary of all checkbox items grouped by their group name.
+        /// Each group contains a dictionary mapping identificator to boolean state.
+        /// </summary>
         public Dictionary<string, Dictionary<string, bool>> CheckboxItems
         {
             get
             {
                 return Items
                     .OfType<CheckboxItem>()
+                    .GroupBy(cb => cb.Group)
+                    .ToDictionary(g => g.Key, g => g.ToDictionary(cb => cb.Identificator, cb => cb.IsChecked));
+            }
+        }
+
+        /// <summary>
+        /// Gets a dictionary of all radio items grouped by their group name.
+        /// Each group contains a dictionary mapping identificator to boolean state.
+        /// </summary>
+        public Dictionary<string, Dictionary<string, bool>> RadioItems
+        {
+            get
+            {
+                return Items
+                    .OfType<RadioItem>()
                     .GroupBy(cb => cb.Group)
                     .ToDictionary(g => g.Key, g => g.ToDictionary(cb => cb.Identificator, cb => cb.IsChecked));
             }
@@ -212,9 +231,24 @@ namespace InteractiveMenu.Core
             Items.Clear();
         }
 
+        /// <summary>
+        /// Returns the checkbox states for a specific group.
+        /// </summary>
+        /// <param name="group">The group name.</param>
+        /// <returns>A dictionary mapping identificator to boolean state.</returns>
         public Dictionary<string, bool> GetCheckboxItems(string group)
         {
             return CheckboxItems[group];
+        }
+
+        /// <summary>
+        /// Returns the radio button states for a specific group.
+        /// </summary>
+        /// <param name="group">The group name.</param>
+        /// <returns>A dictionary mapping identificator to boolean state.</returns>
+        public Dictionary<string, bool> GetRadioItems(string group)
+        {
+            return RadioItems[group];
         }
 
         // internal

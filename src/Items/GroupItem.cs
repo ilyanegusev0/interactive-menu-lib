@@ -11,11 +11,11 @@
 
         // CONSTRUCTORS
 
-        public GroupItem(string text, string identificator, string group) : base(text)
+        public GroupItem(string text, string identificator, string group, bool isChecked) : base(text)
         {
             Identificator = identificator;
             Group = group;
-            IsChecked = false;
+            IsChecked = isChecked;
         }
     }
 }

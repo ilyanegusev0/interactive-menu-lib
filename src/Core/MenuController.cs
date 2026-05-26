@@ -1,5 +1,6 @@
 ﻿using InteractiveMenu.Configuration;
 using InteractiveMenu.Interfaces;
+using InteractiveMenu.Items;
 
 namespace InteractiveMenu.Core
 {
@@ -52,6 +53,8 @@ namespace InteractiveMenu.Core
             menu.SelectedIndex = menu.Items.FindIndex(i => i is ISelectable);
             int startRow = Console.GetCursorPosition().Top;
 
+            NormalizeRadioGroups(menu);
+
             MenuResult? result = null;
 
             bool isRunning = true;
@@ -94,6 +97,28 @@ namespace InteractiveMenu.Core
             Console.CursorVisible = true;
 
             return result;
+        }
+
+        // private
+
+        public void NormalizeRadioGroups(Menu menu)
+        {
+            var groups = menu.Items
+                .OfType<RadioItem>()
+                .GroupBy(r => r.Group);
+
+            foreach (var group in groups)
+            {
+                var lastChecked = group.LastOrDefault(r => r.IsChecked);
+
+                if (lastChecked != null)
+                {
+                    foreach (var radio in group)
+                        radio.IsChecked = false;
+
+                    lastChecked.IsChecked = true;
+                }
+            }
         }
     }
 }
