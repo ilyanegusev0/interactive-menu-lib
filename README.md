@@ -42,14 +42,14 @@ MenuController controller = new MenuController(renderer);
 
 List<MenuItem> items = new List<MenuItem>()
 {
-    new TextItem("[ MAIN MENU ]", ConsoleColor.Yellow),
+    new TextItem("[ MAIN MENU ]") { Color = ConsoleColor.Yellow },
     new EmptyItem(),
-    new TextItem("Actions:", ConsoleColor.White),
+    new TextItem("Actions:") { Color = ConsoleColor.White },
     new OptionItem(" - Products", 0),
     new OptionItem(" - Customers", 'c'),
     new OptionItem(" - Orders", "orders"),
     new EmptyItem(),
-    new ActionItem(" - Exit", () => Environment.Exit(0), ConsoleColor.Red),
+    new ActionItem(" - Exit", () => Environment.Exit(0)) { Color = ConsoleColor.Red },
 };
 
 menu.AddRange(items);
@@ -94,26 +94,25 @@ MenuOptions options = new MenuOptions()
 
 MenuKeyBindings bindings = new MenuKeyBindings()
 {
-    KeyUp = ConsoleKey.W,
-    KeyDown = ConsoleKey.S,
-    KeyCancel = ConsoleKey.Q,
-    KeySelect = ConsoleKey.E
+    KeyCancelSet = new HashSet<ConsoleKey>() { ConsoleKey.Escape, ConsoleKey.Q },
+    KeySelectSet = new HashSet<ConsoleKey>() { ConsoleKey.Enter, ConsoleKey.E },
 };
 
-Menu menu = new Menu();
 MenuRenderer renderer = new MenuRenderer(options);
 MenuController controller = new MenuController(renderer, bindings);
 
+Menu menu = new Menu();
+
 List<MenuItem> items = new List<MenuItem>()
 {
-    new TextItem("[ MAIN MENU ]", ConsoleColor.Yellow),
+    new TextItem("[ MAIN MENU ]") { Color = ConsoleColor.Yellow},
     new EmptyItem(),
-    new TextItem("Actions:", ConsoleColor.Gray),
+    new TextItem("Actions:") { Color = ConsoleColor.Gray},
     new OptionItem(" - Products", 0),
     new OptionItem(" - Customers", 'c'),
     new OptionItem(" - Orders", "orders"),
     new EmptyItem(),
-    new ActionItem(" - Exit", () => Environment.Exit(0), ConsoleColor.Red),
+    new ActionItem(" - Exit", () => Environment.Exit(0)) { Color = ConsoleColor.Red },
 };
 
 menu.AddRange(items);
@@ -225,10 +224,10 @@ Defines key bindings for menu navigation and selection.
 
 ### Properties:
 
--   `KeyUp` - Gets or sets the key for moving up. (`ConsoleKey.UpArrow` by default)
--   `KeyDown` - Gets or sets the key for moving down. (`ConsoleKey.DownArrow` by default)
--   `KeySelect` - Gets or sets the key for selecting an item. (`ConsoleKey.Enter` by default)
--   `KeyCancel` - Gets or sets the key for canceling or exiting. (`ConsoleKey.Escape` by default)
+-   `KeyUp` - Gets or sets the set of keys for moving up. (`W`, `UpArrow` by default)
+-   `KeyDown` - Gets or sets the set of keys for moving down. (`S`, `DownArrow` by default)
+-   `KeySelect` - Gets or sets the set of keys for selecting an item. (`Enter` by default)
+-   `KeyCancel` - Gets or sets the set of keys for canceling or exiting. (`Escape` by default)
 
 ### Constructors:
 
@@ -247,7 +246,7 @@ Provides the abstract base class for all menu items.
 
 ### Constructors:
 
--   `MenuItem(string text, ConsoleColor? color)` - Initializes a new instance of MenuItem.
+-   `MenuItem(string text)` - Initializes a new instance of MenuItem.
 
 ## TextItem : MenuItem
 
@@ -255,7 +254,7 @@ Provides a menu item that displays static text.
 
 ### Constructors:
 
--   `TextItem(string text, ConsoleColor? color = null)` - Initializes a new instance of TextItem.
+-   `TextItem(string text)` - Initializes a new instance of TextItem.
 
 ## EmptyItem : MenuItem
 
@@ -280,8 +279,7 @@ Provides a selectable menu item that returns an associated value.
 
 ### Constructors:
 
--   `OptionItem(string text, object value, ConsoleColor? color = null)` - Initializes a new instance of OptionItem with
-    text, value, and color.
+-   `OptionItem(string text, object value)` - Initializes a new instance of OptionItem with text, value, and color.
 
 ## ActionItem : MenuItem, ISelectable
 
@@ -289,8 +287,7 @@ Provides a menu item that executes a delegate when selected.
 
 ### Constructors:
 
--   `ActionItem(string text, Delegate action, ConsoleColor? color = null)` - Initializes a new instance of ActionItem
-    with a delegate.
+-   `ActionItem(string text, Delegate action)` - Initializes a new instance of ActionItem with a delegate.
 
 # Supports
 
