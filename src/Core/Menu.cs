@@ -15,6 +15,17 @@ namespace InteractiveMenu.Core
         /// </summary>
         public List<MenuItem> Items { get; }
 
+        public Dictionary<string, Dictionary<string, bool>> CheckboxItems
+        {
+            get
+            {
+                return Items
+                    .OfType<CheckboxItem>()
+                    .GroupBy(cb => cb.Group)
+                    .ToDictionary(g => g.Key, g => g.ToDictionary(cb => cb.Identificator, cb => cb.IsChecked));
+            }
+        }
+
         /// <summary>
         /// Gets the index of the selected item.
         /// </summary>
@@ -199,6 +210,11 @@ namespace InteractiveMenu.Core
         public void Clear()
         {
             Items.Clear();
+        }
+
+        public Dictionary<string, bool> GetCheckboxItems(string group)
+        {
+            return CheckboxItems[group];
         }
 
         // internal
