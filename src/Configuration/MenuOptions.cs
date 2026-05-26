@@ -18,11 +18,6 @@
         public ConsoleColor SelectedColor;
 
         /// <summary>
-        /// Gets or sets a value indicating whether a selector symbol is shown.
-        /// </summary>
-        public bool IsShowSelector;
-
-        /// <summary>
         /// Gets or sets the symbol used to mark the selected item.
         /// </summary>
         public string Selector;
@@ -36,7 +31,6 @@
         {
             DefaultColor = ConsoleColor.Gray;
             SelectedColor = ConsoleColor.Green;
-            IsShowSelector = true;
             Selector = " <";
         }
     }

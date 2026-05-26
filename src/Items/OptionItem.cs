@@ -35,7 +35,7 @@ namespace InteractiveMenu.Items
 
         internal override IEnumerable<string> Render(MenuOptions options, bool isSelected)
         {
-            yield return options.IsShowSelector && isSelected ? Text + options.Selector : Text;
+            yield return isSelected ? Text + options.Selector : Text;
         }
 
         MenuResult ISelectable.OnSelect()

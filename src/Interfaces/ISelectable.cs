@@ -4,6 +4,6 @@ namespace InteractiveMenu.Interfaces
 {
     internal interface ISelectable
     {
-        MenuResult OnSelect();
+        MenuResult? OnSelect();
     }
 }
