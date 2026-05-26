@@ -1,4 +1,5 @@
 ﻿using InteractiveMenu.Configuration;
+using InteractiveMenu.Core;
 using InteractiveMenu.Interfaces;
 
 namespace InteractiveMenu.Items
@@ -34,9 +35,9 @@ namespace InteractiveMenu.Items
             yield return options.IsShowSelector && isSelected ? Text + options.Selector : Text;
         }
 
-        object? ISelectable.OnSelect()
+        MenuResult ISelectable.OnSelect()
         {
-            return _action.DynamicInvoke();
+            return new MenuResult.ActionResult(_action.DynamicInvoke());
         }
     }
 }

@@ -45,14 +45,14 @@ namespace InteractiveMenu.Core
         /// </summary>
         /// <param name="menu">The menu to run.</param>
         /// <returns>The result of the selected item, or null if canceled.</returns>
-        public object? Run(Menu menu)
+        public MenuResult? Run(Menu menu)
         {
             Console.CursorVisible = false;
 
             menu.SelectedIndex = menu.Items.FindIndex(i => i is ISelectable);
             int startRow = Console.GetCursorPosition().Top;
 
-            object? result = null;
+            MenuResult? result = null;
 
             bool isRunning = true;
             while (isRunning)
@@ -84,12 +84,14 @@ namespace InteractiveMenu.Core
                         break;
 
                     case var k when _bindings.KeyCancelSet.Contains(k):
+                        result = new MenuResult.CancelResult();
                         isRunning = false;
                         break;
                 }
             }
 
             Console.CursorVisible = true;
+
             return result;
         }
     }

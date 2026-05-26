@@ -1,7 +1,9 @@
-﻿namespace InteractiveMenu.Interfaces
+﻿using InteractiveMenu.Core;
+
+namespace InteractiveMenu.Interfaces
 {
     internal interface ISelectable
     {
-        object? OnSelect();
+        MenuResult OnSelect();
     }
 }

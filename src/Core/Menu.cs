@@ -242,14 +242,14 @@ namespace InteractiveMenu.Core
             while (!(_items[_selectedIndex] is ISelectable));
         }
 
-        internal object? Select()
+        internal MenuResult? Select()
         {
             var item = Items[_selectedIndex];
 
             if (item is ISelectable selectable)
                 return selectable.OnSelect();
-            else
-                return null;
+
+            return null;
         }
     }
 }
