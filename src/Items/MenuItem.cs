@@ -1,4 +1,5 @@
 ﻿using InteractiveMenu.Configuration;
+using InteractiveMenu.Enums;
 
 namespace InteractiveMenu.Items
 {
@@ -18,6 +19,8 @@ namespace InteractiveMenu.Items
         /// Gets or sets the foreground color.
         /// </summary>
         public ConsoleColor? Color { get; set; }
+
+        public MenuAlignment? Alignment { get; set; }
 
         // CONSTRUCTORS
 

@@ -1,4 +1,5 @@
 ﻿using InteractiveMenu.Configuration;
+using InteractiveMenu.Enums;
 using InteractiveMenu.Interfaces;
 using InteractiveMenu.Items;
 
@@ -50,10 +51,35 @@ namespace InteractiveMenu.Core
                 Console.ForegroundColor = isSelected ? _options.SelectedColor : item.Color ?? _options.DefaultColor;
 
                 foreach (string line in item.Render(_options, isSelected))
-                    Console.WriteLine(line.PadRight(Console.WindowWidth));
+                {
+                    string alignedLine = AlignText(item, line);
+                    Console.WriteLine(alignedLine.PadRight(Console.WindowWidth));
+                }
             }
 
             Console.ForegroundColor = previousColor;
+        }
+
+        // private
+
+        private string AlignText(MenuItem item, string text)
+        {
+            int width = Console.WindowWidth;
+
+            if (text.Length >= width)
+                return text;
+
+            switch (item.Alignment == null ? _options.Alignment : item.Alignment)
+            {
+                case MenuAlignment.Center:
+                    return new string(' ', (width - text.Length) / 2) + text;
+
+                case MenuAlignment.Right:
+                    return new string(' ', width - text.Length) + text;
+
+                default:
+                    return text;
+            }
         }
     }
 }

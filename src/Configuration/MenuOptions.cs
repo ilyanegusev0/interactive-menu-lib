@@ -1,4 +1,6 @@
-﻿namespace InteractiveMenu.Configuration
+﻿using InteractiveMenu.Enums;
+
+namespace InteractiveMenu.Configuration
 {
     /// <summary>
     /// Defines appearance options for menu rendering.
@@ -22,6 +24,8 @@
         /// </summary>
         public string Selector;
 
+        public MenuAlignment Alignment;
+
         // CONSTRUCTORS
 
         /// <summary>
@@ -32,6 +36,7 @@
             DefaultColor = ConsoleColor.Gray;
             SelectedColor = ConsoleColor.Green;
             Selector = " <";
+            Alignment = MenuAlignment.Center;
         }
     }
 }
