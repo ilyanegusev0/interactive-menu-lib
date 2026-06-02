@@ -45,6 +45,16 @@ namespace InteractiveMenu.Core
             }
         }
 
+        public Dictionary<string, string> InputItems
+        {
+            get
+            {
+                return Items
+                    .OfType<InputItem>()
+                    .ToDictionary(ii => ii.Identificator, ii => ii.Value);
+            }
+        }
+
         /// <summary>
         /// Gets the index of the selected item.
         /// </summary>
@@ -238,7 +248,9 @@ namespace InteractiveMenu.Core
         /// <returns>A dictionary mapping identificator to boolean state.</returns>
         public Dictionary<string, bool> GetCheckboxItems(string group)
         {
-            return CheckboxItems[group];
+            return CheckboxItems.TryGetValue(group, out var result)
+                ? result
+                : new Dictionary<string, bool>();
         }
 
         /// <summary>
@@ -248,7 +260,16 @@ namespace InteractiveMenu.Core
         /// <returns>A dictionary mapping identificator to boolean state.</returns>
         public Dictionary<string, bool> GetRadioItems(string group)
         {
-            return RadioItems[group];
+            return RadioItems.TryGetValue(group, out var result)
+                ? result
+                : new Dictionary<string, bool>();
+        }
+
+        public string GetInputItem(string identificator)
+        {
+            return InputItems.TryGetValue(identificator, out var result)
+                ? result
+                : string.Empty;
         }
 
         // internal

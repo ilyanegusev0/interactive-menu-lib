@@ -50,11 +50,22 @@ namespace InteractiveMenu.Core
 
                 Console.ForegroundColor = isSelected ? _options.SelectedColor : item.Color ?? _options.DefaultColor;
 
-                foreach (string line in item.Render(_options, isSelected))
+                var lines = item.Render(_options, isSelected).ToList();
+
+                if (lines.Count < 1)
+                    continue;
+
+                var alignment = item.Alignment ?? _options.Alignment;
+
+                int padding = 0;
+                foreach (string line in lines)
                 {
-                    string alignedLine = AlignText(item, line);
+                    string alignedLine = AlignText(line, alignment, out padding);
                     Console.WriteLine(alignedLine.PadRight(Console.WindowWidth));
                 }
+
+                item.CursorLeft = padding;
+                item.CursorTop = Console.CursorTop;
             }
 
             Console.ForegroundColor = previousColor;
@@ -62,24 +73,26 @@ namespace InteractiveMenu.Core
 
         // private
 
-        private string AlignText(MenuItem item, string text)
+        private string AlignText(string text, MenuAlignment alignment, out int padding)
         {
             int width = Console.WindowWidth;
+            padding = 0;
 
             if (text.Length >= width)
                 return text;
 
-            switch (item.Alignment == null ? _options.Alignment : item.Alignment)
+            switch (alignment)
             {
                 case MenuAlignment.Center:
-                    return new string(' ', (width - text.Length) / 2) + text;
+                    padding = (width - text.Length) / 2;
+                    break;
 
                 case MenuAlignment.Right:
-                    return new string(' ', width - text.Length) + text;
-
-                default:
-                    return text;
+                    padding = width - text.Length;
+                    break;
             }
+
+            return new string(' ', padding) + text;
         }
     }
 }

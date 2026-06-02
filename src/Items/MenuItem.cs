@@ -22,6 +22,10 @@ namespace InteractiveMenu.Items
 
         public MenuAlignment? Alignment { get; set; }
 
+        internal int CursorLeft { get; set; }
+
+        internal int CursorTop { get; set; }
+
         // CONSTRUCTORS
 
         /// <summary>
