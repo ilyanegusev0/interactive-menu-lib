@@ -316,7 +316,7 @@ namespace InteractiveMenu.Core
 
         internal bool IsSelectable(MenuItem item)
         {
-            return item is ISelectable && item.IsEnabled;
+            return item is ISelectable && item.IsEnabled && item.IsVisible;
         }
     }
 }

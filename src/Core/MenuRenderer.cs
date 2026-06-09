@@ -47,6 +47,9 @@ namespace InteractiveMenu.Core
             {
                 MenuItem item = menu.Items[i];
 
+                if (!item.IsVisible)
+                    continue;
+
                 bool isSelected = item is ISelectable && i == menu.SelectedIndex;
                 bool isSelectable = menu.IsSelectable(item);
 

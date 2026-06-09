@@ -24,6 +24,8 @@ namespace InteractiveMenu.Items
 
         public bool IsEnabled { get; set; }
 
+        public bool IsVisible { get; set; }
+
         internal int CursorLeft { get; set; }
 
         internal int CursorTop { get; set; }
@@ -38,6 +40,7 @@ namespace InteractiveMenu.Items
         {
             Text = text;
             IsEnabled = true;
+            IsVisible = true;
         }
 
         // METHODS
