@@ -105,12 +105,13 @@ namespace InteractiveMenu.Core
         {
             var groups = menu.Items
                 .OfType<RadioItem>()
-                .Where(r => r.IsEnabled)
                 .GroupBy(r => r.Group);
 
             foreach (var group in groups)
             {
-                var lastChecked = group.LastOrDefault(r => r.IsChecked);
+                var lastChecked = group
+                    .Where(r => r.IsEnabled)
+                    .LastOrDefault(r => r.IsChecked);
 
                 if (lastChecked != null)
                 {
