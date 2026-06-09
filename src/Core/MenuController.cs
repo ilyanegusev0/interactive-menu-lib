@@ -101,7 +101,7 @@ namespace InteractiveMenu.Core
 
         // private
 
-        public void NormalizeRadioGroups(Menu menu)
+        private void NormalizeRadioGroups(Menu menu)
         {
             var groups = menu.Items
                 .OfType<RadioItem>()
