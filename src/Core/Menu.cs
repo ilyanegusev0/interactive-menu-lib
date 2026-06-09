@@ -282,7 +282,7 @@ namespace InteractiveMenu.Core
             int count = 0;
             for (int i = 0; i < Items.Count; i++)
             {
-                if (Items[i] is ISelectable)
+                if (IsSelectable(Items[i]))
                 {
                     count++;
                     if (count == number)
@@ -301,17 +301,22 @@ namespace InteractiveMenu.Core
 
             do
                 SelectedIndex = (SelectedIndex + direction + Items.Count) % Items.Count;
-            while (!(Items[SelectedIndex] is ISelectable));
+            while (!IsSelectable(Items[SelectedIndex]));
         }
 
         internal MenuResult? Select()
         {
             var item = Items[SelectedIndex];
 
-            if (item is ISelectable selectable)
+            if (item is ISelectable selectable && IsSelectable(item))
                 return selectable.OnSelect(this);
 
             return null;
+        }
+
+        internal bool IsSelectable(MenuItem item)
+        {
+            return item is ISelectable && item.IsEnabled;
         }
     }
 }

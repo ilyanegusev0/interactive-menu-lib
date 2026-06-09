@@ -46,9 +46,16 @@ namespace InteractiveMenu.Core
             for (int i = 0; i < menu.Items.Count; i++)
             {
                 MenuItem item = menu.Items[i];
-                bool isSelected = item is ISelectable && i == menu.SelectedIndex;
 
-                Console.ForegroundColor = isSelected ? _options.SelectedColor : item.Color ?? _options.DefaultColor;
+                bool isSelected = item is ISelectable && i == menu.SelectedIndex;
+                bool isSelectable = menu.IsSelectable(item);
+
+                if (!item.IsEnabled)
+                    Console.ForegroundColor = _options.DisabledColor;
+                else if (isSelected && isSelectable)
+                    Console.ForegroundColor = _options.SelectedColor;
+                else
+                    Console.ForegroundColor = item.Color ?? _options.DefaultColor;  
 
                 var lines = item.Render(_options, isSelected).ToList();
 
@@ -56,8 +63,8 @@ namespace InteractiveMenu.Core
                     continue;
 
                 var alignment = item.Alignment ?? _options.Alignment;
-
                 int padding = 0;
+
                 foreach (string line in lines)
                 {
                     string alignedLine = AlignText(line, alignment, out padding);

@@ -19,6 +19,8 @@ namespace InteractiveMenu.Configuration
         /// </summary>
         public ConsoleColor SelectedColor;
 
+        public ConsoleColor DisabledColor;
+
         /// <summary>
         /// Gets or sets the symbol used to mark the selected item.
         /// </summary>
@@ -35,8 +37,9 @@ namespace InteractiveMenu.Configuration
         {
             DefaultColor = ConsoleColor.Gray;
             SelectedColor = ConsoleColor.Green;
+            DisabledColor = ConsoleColor.DarkGray;
             Selector = " <";
-            Alignment = MenuAlignment.Center;
+            Alignment = MenuAlignment.Left;
         }
     }
 }

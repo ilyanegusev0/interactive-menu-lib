@@ -22,6 +22,8 @@ namespace InteractiveMenu.Items
 
         public MenuAlignment? Alignment { get; set; }
 
+        public bool IsEnabled { get; set; }
+
         internal int CursorLeft { get; set; }
 
         internal int CursorTop { get; set; }
@@ -35,6 +37,7 @@ namespace InteractiveMenu.Items
         protected MenuItem(string text)
         {
             Text = text;
+            IsEnabled = true;
         }
 
         // METHODS

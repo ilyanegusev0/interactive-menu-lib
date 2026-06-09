@@ -50,7 +50,7 @@ namespace InteractiveMenu.Core
         {
             Console.CursorVisible = false;
 
-            menu.SelectedIndex = menu.Items.FindIndex(i => i is ISelectable);
+            menu.SelectedIndex = menu.Items.FindIndex(i => menu.IsSelectable(i));
             int startRow = Console.GetCursorPosition().Top;
 
             NormalizeRadioGroups(menu);
@@ -105,6 +105,7 @@ namespace InteractiveMenu.Core
         {
             var groups = menu.Items
                 .OfType<RadioItem>()
+                .Where(r => r.IsEnabled)
                 .GroupBy(r => r.Group);
 
             foreach (var group in groups)
