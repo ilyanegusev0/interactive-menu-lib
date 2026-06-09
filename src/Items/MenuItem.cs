@@ -22,7 +22,7 @@ namespace InteractiveMenu.Items
 
         public MenuAlignment? Alignment { get; set; }
 
-        public bool IsEnabled { get; set; }
+        public virtual bool IsEnabled { get; set; }
 
         public bool IsVisible { get; set; }
 

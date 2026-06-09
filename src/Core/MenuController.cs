@@ -110,7 +110,7 @@ namespace InteractiveMenu.Core
             foreach (var group in groups)
             {
                 var lastChecked = group
-                    .Where(r => r.IsEnabled && r.IsVisible)
+                    .Where(r => r.IsVisible)
                     .LastOrDefault(r => r.IsChecked);
 
                 if (lastChecked != null)
