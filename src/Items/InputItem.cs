@@ -1,5 +1,4 @@
-﻿using InteractiveMenu.Configuration;
-using InteractiveMenu.Core;
+﻿using InteractiveMenu.Core;
 using InteractiveMenu.Interfaces;
 
 namespace InteractiveMenu.Items
@@ -17,15 +16,21 @@ namespace InteractiveMenu.Items
         {
             Identificator = identificator;
             Value = string.Empty;
+            Format = "%t%v%s";
         }
 
         // METHODS
 
         // override
 
-        internal override IEnumerable<string> Render(MenuOptions options, bool isSelected)
+        internal override IEnumerable<string> Render(string selector)
         {
-            yield return Text + Value;
+            string formatted = Format
+                .Replace("%s", selector)
+                .Replace("%t", Text)
+                .Replace("%v", Value);
+
+            yield return formatted;
         }
 
         // internal

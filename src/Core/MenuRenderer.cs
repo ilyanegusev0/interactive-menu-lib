@@ -52,6 +52,7 @@ namespace InteractiveMenu.Core
 
                 bool isSelected = item is ISelectable && i == menu.SelectedIndex;
                 bool isSelectable = menu.IsSelectable(item);
+                string selector = isSelected ? _options.Selector : string.Empty;
 
                 if (!item.IsEnabled)
                     Console.ForegroundColor = _options.DisabledColor;
@@ -60,7 +61,7 @@ namespace InteractiveMenu.Core
                 else
                     Console.ForegroundColor = item.Color ?? _options.DefaultColor;  
 
-                var lines = item.Render(_options, isSelected).ToList();
+                var lines = item.Render(selector).ToList();
 
                 if (lines.Count < 1)
                     continue;

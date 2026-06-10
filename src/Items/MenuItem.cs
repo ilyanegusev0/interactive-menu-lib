@@ -1,5 +1,4 @@
-﻿using InteractiveMenu.Configuration;
-using InteractiveMenu.Enums;
+﻿using InteractiveMenu.Enums;
 
 namespace InteractiveMenu.Items
 {
@@ -26,6 +25,8 @@ namespace InteractiveMenu.Items
 
         public bool IsVisible { get; set; }
 
+        public string Format { get; set; }
+
         internal int CursorLeft { get; set; }
 
         internal int CursorTop { get; set; }
@@ -41,12 +42,20 @@ namespace InteractiveMenu.Items
             Text = text;
             IsEnabled = true;
             IsVisible = true;
+            Format = "%t%s";
         }
 
         // METHODS
 
         // internal
 
-        internal abstract IEnumerable<string> Render(MenuOptions options, bool isSelected);
+        internal virtual IEnumerable<string> Render(string selector)
+        {
+            string formatted = Format
+                .Replace("%s", selector)
+                .Replace("%t", Text);
+
+            yield return formatted;
+        }
     }
 }

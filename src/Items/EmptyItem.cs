@@ -1,6 +1,4 @@
-﻿using InteractiveMenu.Configuration;
-
-namespace InteractiveMenu.Items
+﻿namespace InteractiveMenu.Items
 {
     /// <summary>
     /// Provides a menu item that renders empty space.
@@ -42,7 +40,7 @@ namespace InteractiveMenu.Items
 
         //internal
 
-        internal override IEnumerable<string> Render(MenuOptions options, bool isSelected)
+        internal override IEnumerable<string> Render(string selector)
         {
             for (int i = 0; i < Count; i++)
                 yield return string.Empty;

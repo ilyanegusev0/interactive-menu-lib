@@ -1,6 +1,4 @@
-﻿using InteractiveMenu.Configuration;
-
-namespace InteractiveMenu.Items
+﻿namespace InteractiveMenu.Items
 {
     /// <summary>
     /// Provides a menu item that displays static text.
@@ -15,14 +13,5 @@ namespace InteractiveMenu.Items
         /// <param name="text">The display text.</param>
         public TextItem(string text)
             : base(text) { }
-
-        // METHODS
-
-        // internal
-
-        internal override IEnumerable<string> Render(MenuOptions options, bool isSelected)
-        {
-            yield return Text;
-        }
     }
 }

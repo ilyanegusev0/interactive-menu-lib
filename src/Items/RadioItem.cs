@@ -1,5 +1,4 @@
-﻿using InteractiveMenu.Configuration;
-using InteractiveMenu.Core;
+﻿using InteractiveMenu.Core;
 using InteractiveMenu.Interfaces;
 
 namespace InteractiveMenu.Items
@@ -11,18 +10,23 @@ namespace InteractiveMenu.Items
         public RadioItem(string text, string identificator, string group, bool isChecked = false) : base(text, identificator, group, isChecked)
         {
             Marker = '*';
+            Format = "(%m)%t%s";
         }
 
         // METHODS
 
         // override
 
-        internal override IEnumerable<string> Render(MenuOptions options, bool isSelected)
+        internal override IEnumerable<string> Render(string selector)
         {
             char marker = IsChecked ? Marker : ' ';
-            string selector = isSelected ? options.Selector : string.Empty;
 
-            yield return $"({marker}) {Text}{selector}";
+            string formatted = Format
+                .Replace("%m", marker.ToString())
+                .Replace("%s", selector)
+                .Replace("%t", Text);
+
+            yield return formatted;
         }
 
         // internal
