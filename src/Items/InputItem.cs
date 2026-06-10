@@ -38,7 +38,9 @@ namespace InteractiveMenu.Items
         MenuResult? ISelectable.OnSelect(Menu menu)
         {
             Console.CursorVisible = true;
-            Console.SetCursorPosition(CursorLeft + Text.Length, CursorTop - 1);
+            Console.SetCursorPosition(Text.Length, CursorTop);
+            Console.Write(new string(' ', Console.WindowWidth - Text.Length));
+            Console.SetCursorPosition(Text.Length, CursorTop);
             Value = Console.ReadLine();
             Console.CursorVisible = false;
             return null;

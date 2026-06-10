@@ -15,20 +15,6 @@ namespace InteractiveMenu.Items
 
         // METHODS
 
-        // override
-
-        internal override IEnumerable<string> Render(string selector)
-        {
-            char marker = IsChecked ? Marker : ' ';
-
-            string formatted = Format
-                .Replace("%m", marker.ToString())
-                .Replace("%s", selector)
-                .Replace("%t", Text);
-
-            yield return formatted;
-        }
-
         // internal
 
         MenuResult? ISelectable.OnSelect(Menu menu)

@@ -40,6 +40,7 @@ namespace InteractiveMenu.Core
         internal void Render(Menu menu, int startRow)
         {
             ConsoleColor previousColor = Console.ForegroundColor;
+            ConsoleColor previousBg = Console.BackgroundColor;
 
             Console.SetCursorPosition(0, startRow);
 
@@ -54,12 +55,23 @@ namespace InteractiveMenu.Core
                 bool isSelectable = menu.IsSelectable(item);
                 string selector = isSelected ? _options.Selector : string.Empty;
 
+                ConsoleColor color;
+                ConsoleColor? background;
                 if (!item.IsEnabled)
-                    Console.ForegroundColor = _options.DisabledColor;
+                {
+                    color = _options.DisabledColor;
+                    background = _options.DisabledBackgroundColor;
+                }
                 else if (isSelected && isSelectable)
-                    Console.ForegroundColor = _options.SelectedColor;
+                {
+                    color = _options.SelectedColor;
+                    background = _options.SelectedBackgroundColor;
+                }
                 else
-                    Console.ForegroundColor = item.Color ?? _options.DefaultColor;  
+                {
+                    color = item.Color ?? _options.DefaultColor;
+                    background = _options.DefaultBackgroundColor;
+                }
 
                 var lines = item.Render(selector).ToList();
 
@@ -67,27 +79,29 @@ namespace InteractiveMenu.Core
                     continue;
 
                 var alignment = item.Alignment ?? _options.Alignment;
-                int padding = 0;
+
+                item.CursorTop = Console.CursorTop;
+
+                Console.ForegroundColor = color;
+                Console.BackgroundColor = background ?? previousBg;
 
                 foreach (string line in lines)
                 {
-                    string alignedLine = AlignText(line, alignment, out padding);
+                    string alignedLine = AlignText(line, alignment);
                     Console.WriteLine(alignedLine.PadRight(Console.WindowWidth));
                 }
-
-                item.CursorLeft = padding;
-                item.CursorTop = Console.CursorTop;
             }
 
             Console.ForegroundColor = previousColor;
+            Console.BackgroundColor = previousBg;
         }
 
         // private
 
-        private string AlignText(string text, MenuAlignment alignment, out int padding)
+        private string AlignText(string text, MenuAlignment alignment)
         {
             int width = Console.WindowWidth;
-            padding = 0;
+            int padding = 0;
 
             if (text.Length >= width)
                 return text;

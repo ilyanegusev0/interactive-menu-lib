@@ -10,23 +10,46 @@ namespace InteractiveMenu.Configuration
         // PROPERTIES
 
         /// <summary>
-        /// Gets or sets the color for non-selected items.
+        /// Foreground color for non-selected items.
         /// </summary>
-        public ConsoleColor DefaultColor;
+        public ConsoleColor DefaultColor { get; set; }
 
         /// <summary>
-        /// Gets or sets the color for selected items.
+        /// Foreground color for selected items.
         /// </summary>
-        public ConsoleColor SelectedColor;
+        public ConsoleColor SelectedColor { get; set; }
 
-        public ConsoleColor DisabledColor;
+
+        /// <summary>
+        /// Foreground color for disabled items.
+        /// </summary>
+        public ConsoleColor DisabledColor { get; set; }
+
+        /// <summary>
+        /// Background color for normal items.
+        /// </summary>
+        public ConsoleColor? DefaultBackgroundColor { get; set; }
+
+        /// <summary>
+        /// Background color for the selected item.
+        /// </summary>
+        public ConsoleColor? SelectedBackgroundColor { get; set; }
+
+        /// <summary>
+        /// Background color for disabled items.
+        /// </summary>
+        public ConsoleColor? DisabledBackgroundColor { get; set; }
 
         /// <summary>
         /// Gets or sets the symbol used to mark the selected item.
         /// </summary>
-        public string Selector;
+        public string Selector { get; set; }
 
-        public MenuAlignment Alignment;
+        // <summary>
+        /// Gets or sets the alignment of menu items (Left, Center, Right).
+        /// Default is <see cref="MenuAlignment.Left"/>.
+        /// </summary>
+        public MenuAlignment Alignment { get; set; }
 
         // CONSTRUCTORS
 
@@ -35,11 +58,16 @@ namespace InteractiveMenu.Configuration
         /// </summary>
         public MenuOptions()
         {
+            Selector = " <";
+            Alignment = MenuAlignment.Left;
+
             DefaultColor = ConsoleColor.Gray;
             SelectedColor = ConsoleColor.Green;
             DisabledColor = ConsoleColor.DarkGray;
-            Selector = " <";
-            Alignment = MenuAlignment.Left;
+
+            DefaultBackgroundColor = null;
+            SelectedBackgroundColor = null;
+            DisabledBackgroundColor = null;
         }
     }
 }
