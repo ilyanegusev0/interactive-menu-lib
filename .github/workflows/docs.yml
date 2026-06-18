@@ -1,8 +1,9 @@
-name: Generate API Documentation
+name: Auto-Generate API Documentation
 
 on:
   push:
-    branches: [main, dev, docs/auto-documentation]
+    branches: [main, dev, master]
+  workflow_dispatch:
 
 jobs:
   update-docs:
@@ -42,7 +43,7 @@ jobs:
             exit 1
           }
 
-          # 4. Создаём временный файл конфигурации Kampose с динамическим путём
+          # 4. Создаём kampose.json с динамическим путём к DLL
           $kamposeConfig = @"
           {
             "convention": "dotNet",
@@ -53,10 +54,10 @@ jobs:
             "includeObsolete": false
           }
           "@
-          $kamposeConfig | Out-File -FilePath "kampose.temp.json" -Encoding utf8
+          $kamposeConfig | Out-File -FilePath "kampose.json" -Encoding utf8
 
           # 5. Запускаем Kampose
-          kampose build --config kampose.temp.json
+          kampose build
 
           # 6. Поиск логотипа
           $logoFiles = @("logo.png", "icon.png", "logo.svg", "icon.svg", "assets/logo.png", "assets/icon.png")
@@ -67,8 +68,6 @@ jobs:
               break
             }
           }
-
-          # Копируем логотип в docs/assets, если найден
           if ($logoPath) {
             $targetDir = "docs/assets"
             New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
@@ -78,8 +77,7 @@ jobs:
             $logoMarkdown = ""
           }
 
-          # 7. Получаем название проекта (можем взять из AssemblyTitle или использовать имя файла)
-          # Пробуем прочитать AssemblyInfo.cs
+          # 7. Получаем название проекта (из AssemblyTitle или имени файла)
           $assemblyInfo = Get-ChildItem -Recurse -Filter "AssemblyInfo.cs" | Select-Object -First 1
           if ($assemblyInfo) {
             $content = Get-Content $assemblyInfo.FullName -Raw
@@ -95,34 +93,33 @@ jobs:
           # 8. Обновляем README с маркерами
           $readmePath = "README.md"
           if (-not (Test-Path $readmePath)) {
-            Write-Warning "README.md not found"
-            $readmePath = "README.md"  # можно создать пустой
-          }
-          $readmeContent = Get-Content $readmePath -Raw
+            Write-Warning "README.md not found, skipping update"
+          } else {
+            $readmeContent = Get-Content $readmePath -Raw
 
-          # Заменяем маркеры
-          $readmeContent = $readmeContent -replace '<!-- LOGO_PLACEHOLDER -->', $logoMarkdown
-          $readmeContent = $readmeContent -replace '<!-- TITLE_PLACEHOLDER -->', $projectTitle
+            # Заменяем маркеры логотипа и названия
+            $readmeContent = $readmeContent -replace '<!-- LOGO_PLACEHOLDER -->', $logoMarkdown
+            $readmeContent = $readmeContent -replace '<!-- TITLE_PLACEHOLDER -->', $projectTitle
 
-          # Опционально: вставляем блок с API (между маркерами API_START/API_END)
-          $apiStart = '<!-- API_START -->'
-          $apiEnd   = '<!-- API_END -->'
-          $startIdx = $readmeContent.IndexOf($apiStart)
-          $endIdx   = $readmeContent.IndexOf($apiEnd)
-          if ($startIdx -ne -1 -and $endIdx -ne -1) {
-            # Собираем все сгенерированные .md файлы (кроме README.md в api)
-            $apiFiles = Get-ChildItem "docs/api/*.md" -Exclude "README.md"
-            $apiBody = ""
-            foreach ($file in $apiFiles) {
-              $apiBody += "`n## $($file.BaseName)`n"
-              $apiBody += Get-Content $file.FullName -Raw
+            # Вставка сгенерированного API между маркерами API_START и API_END
+            $apiStart = '<!-- API_START -->'
+            $apiEnd   = '<!-- API_END -->'
+            $startIdx = $readmeContent.IndexOf($apiStart)
+            $endIdx   = $readmeContent.IndexOf($apiEnd)
+            if ($startIdx -ne -1 -and $endIdx -ne -1) {
+              $apiFiles = Get-ChildItem "docs/api/*.md" -Exclude "README.md"
+              $apiBody = ""
+              foreach ($file in $apiFiles) {
+                $apiBody += "`n## $($file.BaseName)`n"
+                $apiBody += Get-Content $file.FullName -Raw
+              }
+              $newReadme = $readmeContent.Substring(0, $startIdx + $apiStart.Length) + "`n" + $apiBody + "`n" + $readmeContent.Substring($endIdx)
+              $readmeContent = $newReadme
             }
-            $newReadme = $readmeContent.Substring(0, $startIdx + $apiStart.Length) + "`n" + $apiBody + "`n" + $readmeContent.Substring($endIdx)
-            $readmeContent = $newReadme
-          }
 
-          # Сохраняем README
-          $readmeContent | Set-Content $readmePath -Encoding UTF8
+            # Сохраняем README
+            $readmeContent | Set-Content $readmePath -Encoding UTF8
+          }
 
       - name: Commit and push changes
         run: |
