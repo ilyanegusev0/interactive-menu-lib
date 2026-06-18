@@ -2,7 +2,7 @@ name: Generate API Documentation
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main, dev, docs/auto-documentation]
 
 jobs:
   update-docs:
