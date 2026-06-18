@@ -40,6 +40,11 @@
 
         //internal
 
+        /// <summary>
+        /// TEST SUMMARY
+        /// </summary>
+        /// <param name="selector"></param>
+        /// <returns></returns>
         internal override IEnumerable<string> Render(string selector)
         {
             for (int i = 0; i < Count; i++)
