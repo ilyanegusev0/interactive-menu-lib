@@ -24,7 +24,7 @@
 
         public string Group { get; }
 
-        public bool IsChecked { get; internal set; }
+        public bool IsChecked { get; set; }
 
         public char Marker { get; protected set; }
 

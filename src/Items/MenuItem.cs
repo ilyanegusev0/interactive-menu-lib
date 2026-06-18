@@ -27,6 +27,7 @@ namespace InteractiveMenu.Items
 
         public string Format { get; set; }
 
+        internal int CursorLeft { get; set; }
         internal int CursorTop { get; set; }
 
         // CONSTRUCTORS

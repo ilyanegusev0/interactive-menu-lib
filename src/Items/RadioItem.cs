@@ -5,12 +5,17 @@ namespace InteractiveMenu.Items
 {
     public class RadioItem : GroupItem, ISelectable
     {
+        // PROPERTIES
+
+        public bool CloseMenu { get; set; }
+
         // CONSTRUCTORS
 
         public RadioItem(string text, string identificator, string group, bool isChecked = false) : base(text, identificator, group, isChecked)
         {
             Marker = '*';
             Format = "(%m)%t%s";
+            CloseMenu = false;
         }
 
         // METHODS

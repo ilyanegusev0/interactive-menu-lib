@@ -80,16 +80,19 @@ namespace InteractiveMenu.Core
 
                 var alignment = item.Alignment ?? _options.Alignment;
 
-                item.CursorTop = Console.CursorTop;
-
                 Console.ForegroundColor = color;
                 Console.BackgroundColor = background ?? previousBg;
-
                 foreach (string line in lines)
                 {
-                    string alignedLine = AlignText(line, alignment);
+                    string alignedLine = AlignText(line, alignment, out int padding);
+
+                    item.CursorLeft = padding;
+                    item.CursorTop = Console.CursorTop;
+
                     Console.WriteLine(alignedLine.PadRight(Console.WindowWidth));
                 }
+
+                
             }
 
             Console.ForegroundColor = previousColor;
@@ -98,10 +101,10 @@ namespace InteractiveMenu.Core
 
         // private
 
-        private string AlignText(string text, MenuAlignment alignment)
+        private string AlignText(string text, MenuAlignment alignment, out int padding)
         {
             int width = Console.WindowWidth;
-            int padding = 0;
+            padding = 0;
 
             if (text.Length >= width)
                 return text;

@@ -83,7 +83,8 @@ namespace InteractiveMenu.Core
 
                     case var k when _bindings.KeySelectSet.Contains(k):
                         result = menu.Select();
-                        if (result != null)
+                        var selectable = menu.Items[menu.SelectedIndex] as ISelectable;
+                        if (result != null && selectable.CloseMenu)
                             isRunning = false;
                         break;
 

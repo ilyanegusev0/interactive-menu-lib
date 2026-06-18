@@ -15,6 +15,8 @@ namespace InteractiveMenu.Items
         /// </summary>
         public object Value { get; }
 
+        public bool CloseMenu { get; set; }
+
         // CONSTRUCTORS
 
         /// <summary>
@@ -26,6 +28,7 @@ namespace InteractiveMenu.Items
             : base(text)
         {
             Value = value;
+            CloseMenu = true;
         }
 
         // METHODS

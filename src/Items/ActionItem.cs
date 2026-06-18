@@ -12,6 +12,10 @@ namespace InteractiveMenu.Items
 
         private readonly Delegate _action;
 
+        // PROPERTIES
+
+        public bool CloseMenu { get; set; }
+
         // CONSTRUCTORS
 
         /// <summary>
@@ -23,6 +27,7 @@ namespace InteractiveMenu.Items
             : base(text)
         {
             _action = action;
+            CloseMenu = false;
         }
 
         // METHODS

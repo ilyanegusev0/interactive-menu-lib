@@ -10,6 +10,8 @@ namespace InteractiveMenu.Items
 
         public string Value { get; private set; }
 
+        public bool CloseMenu { get; set; }
+
         // CONTRUCTORS
 
         public InputItem(string text, string identificator) : base(text)
@@ -17,6 +19,7 @@ namespace InteractiveMenu.Items
             Identificator = identificator;
             Value = string.Empty;
             Format = "%t%v%s";
+            CloseMenu = false;
         }
 
         // METHODS
@@ -38,9 +41,9 @@ namespace InteractiveMenu.Items
         MenuResult? ISelectable.OnSelect(Menu menu)
         {
             Console.CursorVisible = true;
-            Console.SetCursorPosition(Text.Length, CursorTop);
+            Console.SetCursorPosition(CursorLeft + Text.Length, CursorTop);
             Console.Write(new string(' ', Console.WindowWidth - Text.Length));
-            Console.SetCursorPosition(Text.Length, CursorTop);
+            Console.SetCursorPosition(CursorLeft + Text.Length, CursorTop);
             Value = Console.ReadLine();
             Console.CursorVisible = false;
             return null;

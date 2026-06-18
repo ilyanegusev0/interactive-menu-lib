@@ -10,6 +10,17 @@ namespace InteractiveMenu.Configuration
         // PROPERTIES
 
         /// <summary>
+        /// Gets or sets the symbol used to mark the selected item.
+        /// </summary>
+        public string Selector { get; set; }
+
+        // <summary>
+        /// Gets or sets the alignment of menu items (Left, Center, Right).
+        /// Default is <see cref="MenuAlignment.Left"/>.
+        /// </summary>
+        public MenuAlignment Alignment { get; set; }
+
+        /// <summary>
         /// Foreground color for non-selected items.
         /// </summary>
         public ConsoleColor DefaultColor { get; set; }
@@ -18,7 +29,6 @@ namespace InteractiveMenu.Configuration
         /// Foreground color for selected items.
         /// </summary>
         public ConsoleColor SelectedColor { get; set; }
-
 
         /// <summary>
         /// Foreground color for disabled items.
@@ -39,17 +49,6 @@ namespace InteractiveMenu.Configuration
         /// Background color for disabled items.
         /// </summary>
         public ConsoleColor? DisabledBackgroundColor { get; set; }
-
-        /// <summary>
-        /// Gets or sets the symbol used to mark the selected item.
-        /// </summary>
-        public string Selector { get; set; }
-
-        // <summary>
-        /// Gets or sets the alignment of menu items (Left, Center, Right).
-        /// Default is <see cref="MenuAlignment.Left"/>.
-        /// </summary>
-        public MenuAlignment Alignment { get; set; }
 
         // CONSTRUCTORS
 
