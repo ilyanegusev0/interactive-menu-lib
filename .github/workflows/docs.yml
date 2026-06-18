@@ -1,0 +1,133 @@
+name: Generate API Documentation
+
+on:
+  push:
+    branches: [main, dev]
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Install Kampose
+        run: dotnet tool install --global Kampose
+
+      - name: Build project and generate API docs
+        shell: pwsh
+        run: |
+          # 1. Находим первый .csproj
+          $projectFile = Get-ChildItem -Recurse -Filter "*.csproj" | Select-Object -First 1
+          if (-not $projectFile) {
+            Write-Error "No .csproj found"
+            exit 1
+          }
+          $projectDir = $projectFile.DirectoryName
+          $projectName = [System.IO.Path]::GetFileNameWithoutExtension($projectFile)
+
+          # 2. Собираем в Release
+          dotnet build $projectFile.FullName -c Release
+
+          # 3. Находим собранную DLL
+          $dllPath = Get-ChildItem -Path "$projectDir/bin/Release" -Recurse -Filter "$projectName.dll" | Select-Object -First 1
+          if (-not $dllPath) {
+            Write-Error "DLL not found"
+            exit 1
+          }
+
+          # 4. Создаём временный файл конфигурации Kampose с динамическим путём
+          $kamposeConfig = @"
+          {
+            "convention": "dotNet",
+            "outputDirectory": "docs/api",
+            "assemblies": ["$($dllPath.FullName)"],
+            "theme": "classic",
+            "includeInherited": false,
+            "includeObsolete": false
+          }
+          "@
+          $kamposeConfig | Out-File -FilePath "kampose.temp.json" -Encoding utf8
+
+          # 5. Запускаем Kampose
+          kampose build --config kampose.temp.json
+
+          # 6. Поиск логотипа
+          $logoFiles = @("logo.png", "icon.png", "logo.svg", "icon.svg", "assets/logo.png", "assets/icon.png")
+          $logoPath = $null
+          foreach ($f in $logoFiles) {
+            if (Test-Path $f) {
+              $logoPath = $f
+              break
+            }
+          }
+
+          # Копируем логотип в docs/assets, если найден
+          if ($logoPath) {
+            $targetDir = "docs/assets"
+            New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
+            Copy-Item $logoPath "$targetDir/$(Split-Path $logoPath -Leaf)" -Force
+            $logoMarkdown = "![Logo](docs/assets/$(Split-Path $logoPath -Leaf))"
+          } else {
+            $logoMarkdown = ""
+          }
+
+          # 7. Получаем название проекта (можем взять из AssemblyTitle или использовать имя файла)
+          # Пробуем прочитать AssemblyInfo.cs
+          $assemblyInfo = Get-ChildItem -Recurse -Filter "AssemblyInfo.cs" | Select-Object -First 1
+          if ($assemblyInfo) {
+            $content = Get-Content $assemblyInfo.FullName -Raw
+            if ($content -match '\[assembly: AssemblyTitle\("([^"]+)"\)\]') {
+              $projectTitle = $matches[1]
+            } else {
+              $projectTitle = $projectName
+            }
+          } else {
+            $projectTitle = $projectName
+          }
+
+          # 8. Обновляем README с маркерами
+          $readmePath = "README.md"
+          if (-not (Test-Path $readmePath)) {
+            Write-Warning "README.md not found"
+            $readmePath = "README.md"  # можно создать пустой
+          }
+          $readmeContent = Get-Content $readmePath -Raw
+
+          # Заменяем маркеры
+          $readmeContent = $readmeContent -replace '<!-- LOGO_PLACEHOLDER -->', $logoMarkdown
+          $readmeContent = $readmeContent -replace '<!-- TITLE_PLACEHOLDER -->', $projectTitle
+
+          # Опционально: вставляем блок с API (между маркерами API_START/API_END)
+          $apiStart = '<!-- API_START -->'
+          $apiEnd   = '<!-- API_END -->'
+          $startIdx = $readmeContent.IndexOf($apiStart)
+          $endIdx   = $readmeContent.IndexOf($apiEnd)
+          if ($startIdx -ne -1 -and $endIdx -ne -1) {
+            # Собираем все сгенерированные .md файлы (кроме README.md в api)
+            $apiFiles = Get-ChildItem "docs/api/*.md" -Exclude "README.md"
+            $apiBody = ""
+            foreach ($file in $apiFiles) {
+              $apiBody += "`n## $($file.BaseName)`n"
+              $apiBody += Get-Content $file.FullName -Raw
+            }
+            $newReadme = $readmeContent.Substring(0, $startIdx + $apiStart.Length) + "`n" + $apiBody + "`n" + $readmeContent.Substring($endIdx)
+            $readmeContent = $newReadme
+          }
+
+          # Сохраняем README
+          $readmeContent | Set-Content $readmePath -Encoding UTF8
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md docs/api docs/assets
+          git diff --staged --quiet || git commit -m "Automated API documentation update"
+          git push
